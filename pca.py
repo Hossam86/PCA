@@ -119,3 +119,71 @@ u, s, v = np.linalg.svd(X_std.T)
 for ev in eig_vecs:
     np.testing.assert_array_almost_equal(1.0, np.linalg.norm(ev))
 print('Everything ok!')
+
+# In order to decide which eigenvector(s) can dropped without losing too much information
+# for the construction of lower-dimensional subspace, we need to inspect the corresponding eigenvalues:
+# The eigenvectors with the lowest eigenvalues bear the least information about the distribution of the data;
+# those are the ones can be dropped.In order to do so, the common approach is to rank the
+# eigenvalues from highest to lowest in order choose the top k eigenvectors.
+
+# Make a list of (eigenvalue, eigenvector) tuples
+eig_pairs = [(np.abs(eig_vals[i]), eig_vecs[:, i])
+             for i in range(len(eig_vals))]
+
+# Sort the (eigenvalue, eigenvector) tuples from high to low
+eig_pairs.sort()
+eig_pairs.reverse()
+
+# Visually confirm that the list is correctly sorted by decreasing eigenvalues
+print('Eigenvalues in descending order:')
+for i in eig_pairs:
+    print(i[0])
+
+# After sorting the eigenpairs, the next question is "how many principal components are
+# we going to choose for our new feature subspace?"
+# A useful measure is the so-called "explained variance," which can be calculated from
+# the eigenvalues. The explained variance tells us how much information (variance)
+# can be attributed to each of the principal components.
+
+tot = sum(eig_vals)
+var_exp = [(i / tot)*100 for i in sorted(eig_vals, reverse=True)]
+cum_var_exp = np.cumsum(var_exp)
+
+# trace1 = Bar(
+#         x=['PC %s' %i for i in range(1,5)],
+#         y=var_exp,
+#         showlegend=False)
+
+# trace2 = Scatter(
+#         x=['PC %s' %i for i in range(1,5)],
+#         y=cum_var_exp,
+#         name='cumulative explained variance')
+
+# data = Data([trace1, trace2])
+
+# layout=Layout(
+#         yaxis=YAxis(title='Explained variance in percent'),
+#         title='Explained variance by different principal components')
+
+# fig = Figure(data=data, layout=layout)
+# py.iplot(fig)
+
+# The plot above clearly shows that most of the variance (72.77% of the variance to be precise)
+# can be explained by the first principal component alone. The second principal component still
+# bears some information (23.03%) while the third and fourth principal components can safely be
+# dropped without losing to much information. Together, the first two principal components contain
+# 95.8% of the information.
+#
+# The construction of the projection matrix that will be used to transform the Iris data onto the
+# new feature subspace. Although, the name "projection matrix" has a nice ring to it, it is basically
+# just a matrix of our concatenated top k eigenvectors.
+#
+# Here, we are reducing the 4-dimensional feature space to a 2-dimensional feature subspace,
+#  by choosing the "top 2" eigenvectors with the highest eigenvalues to construct
+#  our d×k-dimensional eigenvector matrix W.
+
+
+matrix_w = np.hstack((eig_pairs[0][1].reshape(4, 1),
+                      eig_pairs[1][1].reshape(4, 1)))
+
+print('Matrix W:\n', matrix_w)
