@@ -187,3 +187,25 @@ matrix_w = np.hstack((eig_pairs[0][1].reshape(4, 1),
                       eig_pairs[1][1].reshape(4, 1)))
 
 print('Matrix W:\n', matrix_w)
+# =============================================
+# Projection Onto the New Feature Space
+# ===============================================
+# In this last step we will use the 4×2-dimensional projection matrix W to transform our samples
+# onto the new subspace via the equation Y=X×W, where Y is a 150×2 matrix of our transformed samples.
+
+Y = X_std.dot(matrix_w)
+
+# # plots
+# traces = []
+# trace = Scatter(x=Y[y == name, 0], y=Y[y == name, 1], mode='markers', name=name, marker=Marker(
+#     size=12, line=Line(color='rgba(217, 217, 217, 0.14)', width=0.5), opacity=0.8))
+
+# traces.append(trace)
+
+
+# data = Data(traces)
+# layout = Layout(showlegend=True, scene=Scene(
+#     xaxis=XAxis(title='PC1'), yaxis=YAxis(title='PC2'),))
+
+# fig = Figure(data=data, layout=layout)
+# py.iplot(fig)
