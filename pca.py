@@ -1,7 +1,7 @@
 import pandas as pd
-import plotly.plotly as py
-from plotly.graph_objs import *
-import plotly.tools as tls
+# import plotly.plotly as py
+# rom plotly.graph_objs import *
+# import plotly.tools as tls
 from sklearn.preprocessing import StandardScaler
 import numpy as np
 
@@ -91,11 +91,20 @@ print('\nEigenvalues \n%s' % eig_vals)
 cor_mat2 = np.corrcoef(X.T)
 eig_vals, eig_vecs = np.linalg.eig(cor_mat2)
 
-print('Eigenvectors \n%s' %eig_vecs)
-print('\nEigenvalues \n%s' %eig_vals)
+print('Eigenvectors \n%s' % eig_vecs)
+print('\nEigenvalues \n%s' % eig_vals)
 
 # We can clearly see that all three approaches yield the same eigenvectors and eigenvalue pairs:
 
 # Eigendecomposition of the covariance matrix after standardizing the data.
 # Eigendecomposition of the correlation matrix.
 # Eigendecomposition of the correlation matrix after standardizing the data.
+# ============================================================================================
+# Singular Vector Decomposition
+# ==============================
+# While the eigendecomposition of the covariance or correlation matrix may be more intuitiuve,
+# most PCA implementations perform a Singular Vector Decomposition (SVD) to improve
+# the computational efficiency. So, let us perform an SVD to confirm that the result
+# are indeed the same:
+
+u, s, v = np.linalg.svd(X_std.T)
