@@ -108,3 +108,14 @@ print('\nEigenvalues \n%s' % eig_vals)
 # are indeed the same:
 
 u, s, v = np.linalg.svd(X_std.T)
+
+# Selecting Principal Components
+# ================================
+# The typical goal of a PCA is to reduce the dimensionality of the original feature space
+#  by projecting it onto a smaller subspace, where the eigenvectors will form the axes. However,
+#  the eigenvectors only define the directions of the new axis, since they have all the same
+#  unit length 1, which can confirmed by the following two lines of code:
+
+for ev in eig_vecs:
+    np.testing.assert_array_almost_equal(1.0, np.linalg.norm(ev))
+print('Everything ok!')
