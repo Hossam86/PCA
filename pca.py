@@ -1,3 +1,4 @@
+from sklearn.decomposition import PCA as sklearnPCA
 import pandas as pd
 # import plotly.plotly as py
 # rom plotly.graph_objs import *
@@ -207,5 +208,38 @@ Y = X_std.dot(matrix_w)
 # layout = Layout(showlegend=True, scene=Scene(
 #     xaxis=XAxis(title='PC1'), yaxis=YAxis(title='PC2'),))
 
+# fig = Figure(data=data, layout=layout)
+# py.iplot(fig)
+
+# ================================
+# # Shortcut - PCA in scikit-learn
+# ================================
+# For educational purposes, we went a long way to apply the PCA to the Iris dataset.
+# But luckily, there is already implementation in scikit-learn.
+sklearn_pca = sklearnPCA(n_components=2)
+Y_sklearn = sklearn_pca.fit_transform(X_std)
+
+# plots
+# traces = []
+
+# for name in ('Iris-setosa', 'Iris-versicolor', 'Iris-virginica'):
+
+#     trace = Scatter(
+#         x=Y_sklearn[y==name,0],
+#         y=Y_sklearn[y==name,1],
+#         mode='markers',
+#         name=name,
+#         marker=Marker(
+#             size=12,
+#             line=Line(
+#                 color='rgba(217, 217, 217, 0.14)',
+#                 width=0.5),
+#             opacity=0.8))
+#     traces.append(trace)
+
+
+# data = Data(traces)
+# layout = Layout(xaxis=XAxis(title='PC1', showline=False),
+#                 yaxis=YAxis(title='PC2', showline=False))
 # fig = Figure(data=data, layout=layout)
 # py.iplot(fig)
