@@ -73,3 +73,16 @@ cov_mat = np.cov(X_std.T)
 eig_vals, eig_vecs = np.linalg.eig(cov_mat)
 print('Eigenvectors \n%s' % eig_vecs)
 print('\nEigenvalues \n%s' % eig_vals)
+
+# Correlation Matrix
+# Especially, in the field of "Finance," the correlation matrix typically used instead of the
+# covariance matrix. However, the eigendecomposition of the covariance matrix
+# (if the input data was standardized) yields the same results as a eigendecomposition on
+# the correlation matrix, since the correlation matrix can be understood as the normalized
+#  covariance matrix. Eigendecomposition of the standardized data based on the correlation matrix:
+
+cor_mat1 = np.corrcoef(X_std.T)
+eig_vals, eig_vecs = np.linalg.eig(cor_mat1)
+
+print('Eigenvectors \n%s' % eig_vecs)
+print('\nEigenvalues \n%s' % eig_vals)
