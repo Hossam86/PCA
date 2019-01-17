@@ -21,29 +21,38 @@ y = df.ix[:, 4]
 
 # Exploratory Visualization
 # plotting histograms
-traces = []
-legend = {0: False, 1: False, 2: False, 3: True}
-colors = {'Iris-setosa': 'rgb(31, 119, 180)',
-          'Iris-versicolor': 'rgb(255, 127, 14)',
-          'Iris-virginica': 'rgb(44, 160, 44)'}
-for col in range(4):
-    for key in colors:
-        traces.append(Histogram(x=X[y == key, col], opacity=0.75,
-                                xaxis='x%s' % (col+1), marker=Marker(color=colors[key]), name=key, showlegend=legend[col]))
-data = Data(traces)
-layout = Layout(barmode='overlay',
-                xaxis=XAxis(domain=[0, 0.25],
-                            title='sepal length (cm)'),
-                xaxis2=XAxis(domain=[0.3, 0.5],
-                             title='sepal width (cm)'),
-                xaxis3=XAxis(domain=[0.55, 0.75],
-                             title='petal length (cm)'),
-                xaxis4=XAxis(domain=[0.8, 1],
-                             title='petal width (cm)'),
-                yaxis=YAxis(title='count'),
-                title='Distribution of the different Iris flower features')
+# traces = []
+# legend = {0: False, 1: False, 2: False, 3: True}
+# colors = {'Iris-setosa': 'rgb(31, 119, 180)',
+#           'Iris-versicolor': 'rgb(255, 127, 14)',
+#           'Iris-virginica': 'rgb(44, 160, 44)'}
+# for col in range(4):
+#     for key in colors:
+#         traces.append(Histogram(x=X[y == key, col], opacity=0.75,
+#                                 xaxis='x%s' % (col+1), marker=Marker(color=colors[key]), name=key, showlegend=legend[col]))
+# data = Data(traces)
+# layout = Layout(barmode='overlay',
+#                 xaxis=XAxis(domain=[0, 0.25],
+#                             title='sepal length (cm)'),
+#                 xaxis2=XAxis(domain=[0.3, 0.5],
+#                              title='sepal width (cm)'),
+#                 xaxis3=XAxis(domain=[0.55, 0.75],
+#                              title='petal length (cm)'),
+#                 xaxis4=XAxis(domain=[0.8, 1],
+#                              title='petal width (cm)'),
+#                 yaxis=YAxis(title='count'),
+#                 title='Distribution of the different Iris flower features')
 
-fig = Figure(data=data, layout=layout)
-py.iplot(fig)
+# fig = Figure(data=data, layout=layout)
+# py.iplot(fig)
 
+# Standardizing
+# Whether to standardize the data prior to a PCA on the covariance matrix depends on
+# the measurement scales of the original features. Since PCA yields a feature subspace
+# that maximizes the variance along the axes, it makes sense to standardize the data,
+# especially, if it was measured on different scales. Although, all features in the Iris
+# dataset were measured in centimeters, let us continue with the transformation of
+# the data onto unit scale (mean=0 and variance=1), which is a requirement for the optimal
+# performance of many machine learning algorithms.
 
+X_std = StandardScaler().fit_transform(X)
