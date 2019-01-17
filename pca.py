@@ -86,3 +86,16 @@ eig_vals, eig_vecs = np.linalg.eig(cor_mat1)
 
 print('Eigenvectors \n%s' % eig_vecs)
 print('\nEigenvalues \n%s' % eig_vals)
+
+# Eigendecomposition of the raw data based on the correlation matrix:
+cor_mat2 = np.corrcoef(X.T)
+eig_vals, eig_vecs = np.linalg.eig(cor_mat2)
+
+print('Eigenvectors \n%s' %eig_vecs)
+print('\nEigenvalues \n%s' %eig_vals)
+
+# We can clearly see that all three approaches yield the same eigenvectors and eigenvalue pairs:
+
+# Eigendecomposition of the covariance matrix after standardizing the data.
+# Eigendecomposition of the correlation matrix.
+# Eigendecomposition of the correlation matrix after standardizing the data.
