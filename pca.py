@@ -3,6 +3,7 @@ import plotly.plotly as py
 from plotly.graph_objs import *
 import plotly.tools as tls
 from sklearn.preprocessing import StandardScaler
+import numpy as np
 
 
 # Loading the Dataset
@@ -11,6 +12,7 @@ df = pd.read_csv(
 df.columns = ['sepal_len', 'sepal_wid', 'petal_len', 'petal_wid', 'class']
 df.dropna(how="all", inplace=True)  # drops the empty line at file-end
 print(df.head())
+
 
 # split data table into data X and class labels y
 X = df.ix[:, 0:4].values
@@ -56,3 +58,18 @@ y = df.ix[:, 4]
 # performance of many machine learning algorithms.
 
 X_std = StandardScaler().fit_transform(X)
+
+# The eigenvectors and eigenvalues of a covariance (or correlation) matrix represent the "core" of a PCA:
+# The eigenvectors (principal components) determine the directions of the new feature space, and the eigenvalues determine their magnitude.
+# In other words, the eigenvalues explain the variance of the data along the new feature axes.
+
+# Covariance Matrix
+mean_vec = np.mean(X_std, axis=0)
+cov_mat = (X_std-mean_vec).T.dot((X_std-mean_vec))/(X_std.shape[0]-1)
+print('Covariance matrix \n%s' % cov_mat)
+
+# built in Cov function
+cov_mat = np.cov(X_std.T)
+eig_vals, eig_vecs = np.linalg.eig(cov_mat)
+print('Eigenvectors \n%s' % eig_vecs)
+print('\nEigenvalues \n%s' % eig_vals)
